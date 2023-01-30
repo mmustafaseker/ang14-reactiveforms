@@ -1,0 +1,184 @@
+<div class="container">
+  <legend>Jop Portal</legend>
+  <div class="row">
+    <div class="col col-md-8" style="overflow-y: scroll">
+      <form [formGroup]="jobForm" (ngSubmit)="save()">
+        <div class="mb-3">
+          <label for="txtName" class="form-label"> First Name</label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="txtName"
+            formControlName="firstName"
+          />
+          <div
+            class="alert alert-danger"
+            *ngIf="
+              firstName?.invalid && (firstName?.touched || firstName?.dirty)
+            "
+          >
+            <div class="" *ngIf="firstName?.errors?.['required']">
+              First Name is Required
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="txtLastName" class="form-label"> Last Name</label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="txtLastName"
+            formControlName="lastName"
+          />
+        </div>
+        <div class="mb-3" formGroupName="contacts">
+          <div class="row">
+            <div class="col col-md-4 offset-md-4">
+              <div class="mb-3">
+                <label for="ddlContactType" class="form-label">
+                  Prefered Contact Type</label
+                >
+                <select
+                  class="form-select"
+                  formControlName="contactType"
+                  aria-label="Default select example"
+                >
+                  <option value="-1">-Select-</option>
+                  <option value="email">Email</option>
+                  <option value="phone">Phone</option>
+                </select>
+                <div
+                class="alert alert-danger"
+                *ngIf="
+                contactType?.invalid && (contactType?.touched || contactType?.dirty)
+                "
+              >
+                <div class="" *ngIf="contactType?.errors?.['emailOrPhoneRequired']">
+                  Email or Phone must be selected
+                </div>
+              </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col col-md-6">
+              <div class="mb-3">
+                <label for="txtEmail" class="form-label">Email</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtEmail"
+                  formControlName="email"
+                />
+              </div>
+            </div>
+            <div class="col col-md-6">
+              <div class="mb-3">
+                <label for="txtPhone" class="form-label">Phone</label>
+
+                <input
+                  type="text"
+                  class="form-control"
+                  id="txtPhone"
+                  formControlName="phone"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-3" formArrayName="skills">
+          <div class="row">
+            <div class="col col-md-4offset-md-4">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="addASkillFormGroup()"
+              >
+                Add a Skill
+              </button>
+            </div>
+          </div>
+
+          <ng-container
+            *ngFor="let skillForm of skillForms.controls; let i = index"
+          >
+            <div class="row" [formGroupName]="i">
+              <div class="col col-md-5">
+                <div class="mb-3">
+                  <label [for]="'txtProgramLanguage' + i" class="form-label"
+                    >Program Language</label
+                  >
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    [id]="'txtProgramLanguage' + i"
+                    formControlName="programLanguage"
+                  />
+                  <div
+                  class="alert alert-danger"
+                  *ngIf="
+                  getProgramLanguage(i)?.invalid && (getProgramLanguage(i)?.touched || getProgramLanguage(i)?.dirty)
+                  "
+                >
+                  <div class="" *ngIf="getProgramLanguage(i)?.errors?.['required']">
+                    Program Language is Required
+                  </div>
+                </div>
+                </div>
+              </div>
+              <div class="col col-md-5">
+                <div class="mb-3">
+                  <label [for]="'txtExperience' + i" class="form-label"
+                    >Experience</label
+                  >
+
+                  <input
+                    type="text"
+                    class="form-control"
+                    [id]="'txtExperience' + i"
+                    formControlName="experience"
+                  />
+                </div>
+              </div>
+              <div class="col col-md-2 mt-4">
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  (click)="removeSkillFormGroup(i)"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <br />
+        <br />
+        <button type="type" class="btn btn-primary" (click)="sampleSetValue()">
+          Test setValue()
+        </button>
+        <br />
+        <br />
+        <button
+          type="type"
+          class="btn btn-primary"
+          (click)="samplePatchValue()"
+        >
+          Test PatchValue()
+        </button>
+      </form>
+    </div>
+    <div class="col colmd-2">
+      <div style="position: fixed">
+        {{ preview }}
+      </div>
+    </div>
+  </div>
+</div>
